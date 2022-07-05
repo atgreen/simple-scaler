@@ -53,9 +53,10 @@ In the `[azure]` section:
 | `sp-appid`       | The service principal app ID for managing VMs       |
 | `sp-password`    | The service principal password for managing VMs     |
 
-`simple-scaler` is built on top of an embedded
-[etcd](https://etcd.io/).  This cluster of one, three or five nodes,
-is configured in the `[etcd]` section of
+`simple-scaler` runs on top of an embedded [etcd](https://etcd.io/)
+that it runs as an asynchronous child process (see
+[cl-etcd](https://github.com/atgreen/cl-etcd)).  This cluster of one,
+three or five nodes, is configured in the `[etcd]` section of
 `/etc/simple-scaler/config.ini`.
 
 | Setting                       | Description                                    |
