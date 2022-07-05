@@ -16,7 +16,7 @@ The worker nodes must have a standard name template with a numeric
 suffix representing its position in the sequence, starting
 from 1. So, for instance, with a name template of `azworker-`, the VMs
 must be named `azworker-1`, `azworker-2`, `azworker-3`, etc.  Note
-that your network must allow for ever node must be route to every
+that your network must allow for every node must be route to every
 other node.
 
 simple-scaler is monitored and controlled over a simple web API.
