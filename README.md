@@ -35,7 +35,13 @@ $ curl http://localhost:88080/set-target?target=5
 { "target": 5, "ready": 2, "vms": 2, "active-change-timer": 1, "last-change-timer": 0 }
 ```
 
-This sets the `target` to 5, and will initiate VM on/off switching if we don't already have 5 ready systems.
+This sets the `target` to 5, and will initiate VM on/off switching if
+we don't already have 5 ready systems.
+
+Common sense restrictions apply around the use of storage.  Consider
+using taints and tolerations to restrict the kinds of workloads that
+will run on the Azure-hosted nodes.
+
 
 Configuration
 -------------
