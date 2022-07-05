@@ -92,7 +92,7 @@
     (if (and (>= proposed-target 0) (<= proposed-target *max-nodes*))
         (if (not (eq proposed-target current-target))
             (progn
-              (setf (cl-etcd:get-etcd "active-change-time" etcd) (format nil "~A" (get-universal-time)))
+              (setf (cl-etcd:get-etcd "active-change-time" *etcd*) (format nil "~A" (get-universal-time)))
               (setf (cl-etcd:get-etcd "target-count" *etcd*) (format nil "~A" proposed-target)))))
     (get-status)))
 
