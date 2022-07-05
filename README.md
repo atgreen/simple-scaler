@@ -9,6 +9,9 @@ that the only ongoing charge will be for the VM disk image (as low as
 $3/month).  Once 'on', the pre-configured worker node will reattach
 to the cluster and start taking on load.
 
+![alt text](simple-scaler.png "Stretching your cluster to Azure")
+
+
 The worker nodes must have a common name template with a numeric
 suffix representing it's position in the sequence, starting
 from 1. So, for instance, with a name template of `azworker-`, the VMs
