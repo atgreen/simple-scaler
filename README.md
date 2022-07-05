@@ -78,3 +78,11 @@ nodes will not be able to rejoin the cluster if they are ever
 restarted.  A good location for this might be
 `/var/lib/simple-scaler`.  See the example k8s yaml files in the `k8s`
 directory for details.
+
+Author & License
+=================
+
+simple-scaler is an experiment by [Anthony
+Green](https://linkedin.com/in/green), and is licensed under the terms
+of the GNU Affero General Public License.  See the file COPYING for
+details.
