@@ -19,6 +19,8 @@ spec:
         volumeMounts:
         - name: simple-scaler-config
           mountPath: /etc/simple-scaler/
+        - name: ss1-data
+          mountPath: /var/lib/simple-scaler/
       volumes:
       - name: simple-scaler-config
         configMap:
@@ -26,6 +28,11 @@ spec:
           items:
             - key: config.ini
               path: config.ini
+            - key: kubeconfig
+              path: kubeconfig
+      - name: ss1-data
+        persistentVolumeClaim:
+          claimName: ss1-data
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -47,6 +54,8 @@ spec:
         volumeMounts:
         - name: simple-scaler-config
           mountPath: /etc/simple-scaler/
+        - name: ss2-data
+          mountPath: /var/lib/simple-scaler/
       volumes:
       - name: simple-scaler-config
         configMap:
@@ -54,6 +63,11 @@ spec:
           items:
             - key: config.ini
               path: config.ini
+            - key: kubeconfig
+              path: kubeconfig
+      - name: ss2-data
+        persistentVolumeClaim:
+          claimName: ss2-data
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -75,6 +89,8 @@ spec:
         volumeMounts:
         - name: simple-scaler-config
           mountPath: /etc/simple-scaler/
+        - name: ss3-data
+          mountPath: /var/lib/simple-scaler/
       volumes:
       - name: simple-scaler-config
         configMap:
@@ -82,4 +98,8 @@ spec:
           items:
             - key: config.ini
               path: config.ini
-
+            - key: kubeconfig
+              path: kubeconfig
+      - name: ss3-data
+        persistentVolumeClaim:
+          claimName: ss3-data

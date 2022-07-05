@@ -11,13 +11,25 @@ data:
 
     [etcd]
     name = "ss1"
-    host-whitelist = "simple-scaler-2,simple-scaler-3"
+    data-dir = "/var/lib/simple-scaler/"
+    host-whitelist = "0.0.0.0"
     initial-advertise-peer-urls = "http://simple-scaler-1:2380"
     listen-peer-urls = "http://0.0.0.0:2380"
     listen-client-urls = "http://0.0.0.0:2379"
     advertise-client-urls = "http://simple-scaler-1:2379"
     initial-cluster = "ss1=http://simple-scaler-1:2380,ss2=http://simple-scaler-2:2380,ss3=http://simple-scaler-3:2380"
-    initial-cluster-state = "new"
+
+    [azure]
+    max-nodes = 2
+    tenant = "TENENT CODE HERE"
+    resource-group = "RESOURCE GROUP HERE"
+    name-template = "az-worker-"
+    sp-appid = "SERVICE PRINCIPAL APP ID HERE"
+    sp-password = "SERVICE PRINCIPAL PASSWORD HERE"
+
+  kubeconfig: |
+    KUBECONFIG FILE HERE
+    
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -31,13 +43,25 @@ data:
 
     [etcd]
     name = "ss2"
-    host-whitelist = "simple-scaler-1,simpler-scaler-3"
+    data-dir = "/var/lib/simple-scaler/"
+    host-whitelist = "0.0.0.0"
     initial-advertise-peer-urls = "http://simple-scaler-2:2380"
     listen-peer-urls = "http://0.0.0.0:2380"
     listen-client-urls = "http://0.0.0.0:2379"
     advertise-client-urls = "http://simple-scaler-2:2379"
     initial-cluster = "ss1=http://simple-scaler-1:2380,ss2=http://simple-scaler-2:2380,ss3=http://simple-scaler-3:2380"
-    initial-cluster-state = "new"
+
+    [azure]
+    max-nodes = 2
+    tenant = "TENENT CODE HERE"
+    resource-group = "RESOURCE GROUP HERE"
+    name-template = "az-worker-"
+    sp-appid = "SERVICE PRINCIPAL APP ID HERE"
+    sp-password = "SERVICE PRINCIPAL PASSWORD HERE"
+
+  kubeconfig: |
+    KUBECONFIG FILE HERE
+
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -51,10 +75,24 @@ data:
 
     [etcd]
     name = "ss3"
-    host-whitelist = "simple-scaler-1,simpler-scaler-2"
+    data-dir = "/var/lib/simple-scaler/"
+    host-whitelist = "0.0.0.0"
     initial-advertise-peer-urls = "http://simple-scaler-3:2380"
     listen-peer-urls = "http://0.0.0.0:2380"
     listen-client-urls = "http://0.0.0.0:2379"
     advertise-client-urls = "http://simple-scaler-3:2379"
     initial-cluster = "ss1=http://simple-scaler-1:2380,ss2=http://simple-scaler-2:2380,ss3=http://simple-scaler-3:2380"
-    initial-cluster-state = "new"
+
+    [azure]
+    max-nodes = 2
+    tenant = "TENENT CODE HERE"
+    resource-group = "RESOURCE GROUP HERE"
+    name-template = "az-worker-"
+    sp-appid = "SERVICE PRINCIPAL APP ID HERE"
+    sp-password = "SERVICE PRINCIPAL PASSWORD HERE"
+
+  kubeconfig: |
+    apiVersion: v1
+    clusters:
+    - cluster:
+      KUBECONFIG FILE HERE
