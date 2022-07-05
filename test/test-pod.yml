@@ -1,0 +1,78 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: simple-scaler-pod
+  name: simple-scaler-pod
+spec:
+  containers:
+  - name: simple-scaler1
+    image: localhost/simple-scaler:latest
+    ports:
+    - containerPort: 8080
+      hostPort: 8080
+      protocol: TCP
+    - containerPort: 2380
+      hostPort: 2380
+      protocol: TCP
+    volumeMounts:
+    - mountPath: /etc/simple-scaler/config.ini
+      name: simple-scaler1-config
+    resources: {}
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities: {}
+      privileged: false
+      readOnlyRootFilesystem: false
+      seLinuxOptions: {}
+  - name: simple-scaler2
+    image: localhost/simple-scaler:latest
+    ports:
+    - containerPort: 8081
+      hostPort: 8081
+      protocol: TCP
+    - containerPort: 2380
+      hostPort: 2480
+      protocol: TCP
+    volumeMounts:
+    - mountPath: /etc/simple-scaler/config.ini
+      name: simple-scaler2-config
+    resources: {}
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities: {}
+      privileged: false
+      readOnlyRootFilesystem: false
+      seLinuxOptions: {}
+  - name: simple-scaler3
+    image: localhost/simple-scaler:latest
+    ports:
+    - containerPort: 8082
+      hostPort: 8082
+      protocol: TCP
+    - containerPort: 2380
+      hostPort: 2580
+      protocol: TCP
+    volumeMounts:
+    - mountPath: /etc/simple-scaler/config.ini
+      name: simple-scaler3-config
+    resources: {}
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities: {}
+      privileged: false
+      readOnlyRootFilesystem: false
+      seLinuxOptions: {}
+  volumes:
+  - name: simple-scaler1-config
+    hostPath:
+      path: /home/runner/work/simple-scaler/simple-scaler/test/config1.ini
+      type: File
+  - name: simple-scaler2-config
+    hostPath:
+      path: /home/runner/work/simple-scaler/simple-scaler/test/config2.ini
+      type: File
+  - name: simple-scaler3-config
+    hostPath:
+      path: /home/runner/work/simple-scaler/simple-scaler/test/config3.ini
+      type: File

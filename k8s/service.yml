@@ -1,0 +1,87 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    description: simple-scaler
+  labels:
+    app: simple-scaler-1
+  name: simple-scaler-1
+spec:
+  ports:
+  - name: 8080-tcp
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  - name: 2380-tcp
+    port: 2380
+    protocol: TCP
+    targetPort: 2380
+  - name: 2379-tcp
+    port: 2379
+    protocol: TCP
+    targetPort: 2379
+  selector:
+    app: simple-scaler-1
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    description: simple-scaler
+  labels:
+    app: simple-scaler-2
+  name: simple-scaler-2
+spec:
+  ports:
+  - name: 8080-tcp
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  - name: 2380-tcp
+    port: 2380
+    protocol: TCP
+    targetPort: 2380
+  - name: 2379-tcp
+    port: 2379
+    protocol: TCP
+    targetPort: 2379
+  selector:
+    app: simple-scaler-2
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    description: simple-scaler
+  labels:
+    app: simple-scaler-3
+  name: simple-scaler-3
+spec:
+  ports:
+  - name: 8080-tcp
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  - name: 2380-tcp
+    port: 2380
+    protocol: TCP
+    targetPort: 2380
+  - name: 2379-tcp
+    port: 2379
+    protocol: TCP
+    targetPort: 2379
+  selector:
+    app: simple-scaler-3
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}

@@ -1,0 +1,85 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simple-scaler-1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simple-scaler-1
+  template:
+    metadata:
+      labels:
+        app: simple-scaler-1
+    spec:
+      containers:
+      - name: simple-scaler
+        image: quay.io/atgreen/simple-scaler:latest
+        volumeMounts:
+        - name: simple-scaler-config
+          mountPath: /etc/simple-scaler/
+      volumes:
+      - name: simple-scaler-config
+        configMap:
+          name: simple-scaler-config-1
+          items:
+            - key: config.ini
+              path: config.ini
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simple-scaler-2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simple-scaler-2
+  template:
+    metadata:
+      labels:
+        app: simple-scaler-2
+    spec:
+      containers:
+      - name: simple-scaler
+        image: quay.io/atgreen/simple-scaler:latest
+        volumeMounts:
+        - name: simple-scaler-config
+          mountPath: /etc/simple-scaler/
+      volumes:
+      - name: simple-scaler-config
+        configMap:
+          name: simple-scaler-config-2
+          items:
+            - key: config.ini
+              path: config.ini
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simple-scaler-3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simple-scaler-3
+  template:
+    metadata:
+      labels:
+        app: simple-scaler-3
+    spec:
+      containers:
+      - name: simple-scaler
+        image: quay.io/atgreen/simple-scaler:latest
+        volumeMounts:
+        - name: simple-scaler-config
+          mountPath: /etc/simple-scaler/
+      volumes:
+      - name: simple-scaler-config
+        configMap:
+          name: simple-scaler-config-3
+          items:
+            - key: config.ini
+              path: config.ini
+

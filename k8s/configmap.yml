@@ -1,0 +1,60 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: simple-scaler-config-1
+  labels:
+    app: simple-scaler
+data:
+  config.ini: |
+    server-port = 8080
+
+    [etcd]
+    name = "ss1"
+    host-whitelist = "simple-scaler-2,simple-scaler-3"
+    initial-advertise-peer-urls = "http://simple-scaler-1:2380"
+    listen-peer-urls = "http://0.0.0.0:2380"
+    listen-client-urls = "http://0.0.0.0:2379"
+    advertise-client-urls = "http://simple-scaler-1:2379"
+    initial-cluster = "ss1=http://simple-scaler-1:2380,ss2=http://simple-scaler-2:2380,ss3=http://simple-scaler-3:2380"
+    initial-cluster-state = "new"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: simple-scaler-config-2
+  labels:
+    app: simple-scaler
+data:
+  config.ini: |
+    server-port = 8080
+
+    [etcd]
+    name = "ss2"
+    host-whitelist = "simple-scaler-1,simpler-scaler-3"
+    initial-advertise-peer-urls = "http://simple-scaler-2:2380"
+    listen-peer-urls = "http://0.0.0.0:2380"
+    listen-client-urls = "http://0.0.0.0:2379"
+    advertise-client-urls = "http://simple-scaler-2:2379"
+    initial-cluster = "ss1=http://simple-scaler-1:2380,ss2=http://simple-scaler-2:2380,ss3=http://simple-scaler-3:2380"
+    initial-cluster-state = "new"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: simple-scaler-config-3
+  labels:
+    app: simple-scaler
+data:
+  config.ini: |
+    server-port = 8080
+
+    [etcd]
+    name = "ss3"
+    host-whitelist = "simple-scaler-1,simpler-scaler-2"
+    initial-advertise-peer-urls = "http://simple-scaler-3:2380"
+    listen-peer-urls = "http://0.0.0.0:2380"
+    listen-client-urls = "http://0.0.0.0:2379"
+    advertise-client-urls = "http://simple-scaler-3:2379"
+    initial-cluster = "ss1=http://simple-scaler-1:2380,ss2=http://simple-scaler-2:2380,ss3=http://simple-scaler-3:2380"
+    initial-cluster-state = "new"

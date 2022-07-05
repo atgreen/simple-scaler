@@ -1,0 +1,37 @@
+FROM quay.io/containerlisp/lisp-10-ubi8
+
+# Make any changes to the base image here.  For instance, if you need
+# additional software or directories, do something like...
+#
+# USER 0
+# RUN mkdir -p /var/myapp && chown -R 1001:0 /var/myapp
+# RUN dnf install -y git && dnf clean all
+# USER 1001
+
+# Preload dependencies into this base image so we aren't always
+# hitting the quicklisp archives.
+
+COPY src/simple-scaler.asd /tmp
+
+RUN curl -L https://github.com/etcd-io/etcd/releases/download/v3.5.0/etcd-v3.5.0-linux-amd64.tar.gz | tar xvfz -
+RUN mkdir /opt/app-root/src/bin
+RUN mv etcd-v3.5.0-linux-amd64/* /opt/app-root/src/bin
+
+USER 0
+
+RUN dnf install -y wget \
+    && rpm --import https://packages.microsoft.com/keys/microsoft.asc \
+    && dnf install -y https://packages.microsoft.com/config/rhel/8/packages-microsoft-prod.rpm \
+    && dnf install -y azure-cli \
+    && wget -qO - https://github.com/openshift/okd/releases/download/4.10.0-0.okd-2022-06-24-212905/openshift-client-linux-4.10.0-0.okd-2022-06-24-212905.tar.gz | tar -xvzf - \
+    && mv oc /usr/bin \
+    && rm kubectl \
+    && yum remove -y wget \
+    && yum clean all
+
+USER 1001
+RUN sbcl --eval '(let* ((ds (with-open-file (stream "/tmp/simple-scaler.asd") \
+                              (read stream)))                                     \
+                        (pos (position :DEPENDS-ON ds)))                          \
+                   (dolist (p (nth (+ pos 1) ds))                                 \
+                     (ql:quickload p)))'
