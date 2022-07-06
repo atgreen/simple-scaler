@@ -2,12 +2,20 @@
 
 # simple-scaler
 
-simple-scaler scales a series of pre-configured Azure-hosted
-OpenShift worker nodes up and down by simply turning them on and off
-in an ordered sequence.  Once 'off', the VM is 'deallocated', meaning
-that the only ongoing charge will be for the VM disk image (as low as
-$3/month).  Once 'on', the pre-configured worker node will reattach
-to the cluster and start taking on load.
+Simple-scaler makes is easy to extend your on-prem OpenShift cluster
+into the Azure cloud using custom, application-specific scaling logic.
+
+It does this by providing a simple API for growing and shrinking a
+group of pre-configured Azure-hosted OpenShift worker nodes by simply
+turning them on and off in an ordered sequence.  Once 'off', the VM is
+'deallocated' in Azure, meaning that the only ongoing charge will be
+for the VM disk image (as low as $3/month).  Once 'on', the
+pre-configured worker node will reattach to the cluster and start
+taking on load.
+
+This allows you to 'burst' for extra capacity into the cloud, but
+within the control of your on-prem OpenShift cluster, for a true
+hybrid-cloud experience.
 
 ![alt text](simple-scaler.png "Stretching your cluster to Azure")
 
