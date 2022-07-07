@@ -104,8 +104,8 @@
 
 (defun az-login ()
   (run-with-retry
-   (format nil "az login --service-principal --username ~A --password ~A --tenant ~A"
-           *sp-appid* *sp-password* *tenant*)))
+   "az login --service-principal --username ~A --password ~A --tenant ~A"
+   *sp-appid* *sp-password* *tenant*))
 
 (defun make-vm-id-base ()
   (unless *test-without-azure*
@@ -124,11 +124,11 @@
 (defvar *leader?* nil)
 (defvar *test-without-azure* nil)
 
-(defun run-with-retry (cmd)
+(defun %run-with-retry (cmd)
   "Try running CMD up to 5 times, waiting longer between each retry,
 to account for intermittent network problems."
   (log:info cmd)
-  (flet ((%run-with-retry (cmd)
+  (flet ((%%run-with-retry (cmd)
            (handler-case
                (inferior-shell:run cmd)
              (error (c)
@@ -136,9 +136,12 @@ to account for intermittent network problems."
                  (log:info "error> ~A" c)
                  t)))))
     (loop for i from 1 upto 5
-          until (not (%run-with-retry cmd))
+          until (not (%%run-with-retry cmd))
           do (progn (log:info "retry #~A" i) (sleep (* i 2)))
           finally (when (eq i 6) (log:error "failed cmd: ~A" cmd)))))
+
+(defmacro run-with-retry (fmtstring &rest args)
+  `(%run-with-retry (format nil ,fmtstring ,@args)))
 
 ;; This method is called when I become leader.
 (defun become-leader (etcd)
@@ -165,21 +168,21 @@ to account for intermittent network problems."
                    (log:info "GROWING to ~A" target-count)
                    (loop for i from (+ ready-count 1) upto target-count
                          do (setf ids (format nil "~A ~A~A" ids vm-id-base i)))
-	           (run-with-retry (format nil "az vm start --ids ~A" ids))
+	           (run-with-retry "az vm start --ids ~A" ids)
                    (setf (cl-etcd:get-etcd "last-change-time" etcd) (format nil "~A" (get-universal-time))))
 
                  (when (< target-count ready-count)
                    (log:info "SHRINKING to ~A" target-count)
                    (loop for i from (+ target-count 1) upto ready-count
-                         do (run-with-retry (format nil "KUBECONFIG=/etc/simple-scaler/kubeconfig oc adm cordon ~A~A" *name-template* i)))
+                         do (run-with-retry "KUBECONFIG=/etc/simple-scaler/kubeconfig oc adm cordon ~A~A" *name-template* i))
                    (loop for i from (+ target-count 1) upto ready-count
                          do (progn
-                              (run-with-retry (format nil "KUBECONFIG=/etc/simple-scaler/kubeconfig oc adm drain ~A~A --ignore-daemonsets --delete-emptydir-data --force" *name-template* i))
-                              (run-with-retry (format nil "KUBECONFIG=/etc/simple-scaler/kubeconfig oc delete node ~A~A" *name-template* i))))
+                              (run-with-retry "KUBECONFIG=/etc/simple-scaler/kubeconfig oc adm drain ~A~A --ignore-daemonsets --delete-emptydir-data --force" *name-template* i)
+                              (run-with-retry "KUBECONFIG=/etc/simple-scaler/kubeconfig oc delete node ~A~A" *name-template* i)))
                    (loop for i from (+ target-count 1) upto ready-count
                          do (setf ids (format nil "~A ~A~A" ids vm-id-base i)))
-	           (run-with-retry (format nil "az vm stop --ids ~A" ids))
-	           (run-with-retry (format nil "az vm deallocate --ids ~A" ids))
+	           (run-with-retry "az vm stop --ids ~A" ids)
+	           (run-with-retry "az vm deallocate --ids ~A" ids)
                    (setf (cl-etcd:get-etcd "last-change-time" etcd) (format nil "~A" (get-universal-time))))))
 
              (sleep 10))))))
