@@ -19,13 +19,17 @@ hybrid-cloud experience.
 
 ![alt text](simple-scaler.png "Stretching your cluster to Azure")
 
+Pre-configuring the worker nodes allows them to be activated very
+quickly, at the cost of ongoing image storage fees.  Note, however,
+that you may change this max value at any time by simply going through
+the normal UPI cluster scaleup/scaledown process.
 
-The worker nodes must have a standard name template with a numeric
-suffix representing its position in the sequence, starting
-from 1. So, for instance, with a name template of `azworker-`, the VMs
-must be named `azworker-1`, `azworker-2`, `azworker-3`, etc.  Note
-that your network must allow for every node to route to every
-other node.
+All Azure-hosted worker nodes must follow a standard naming scheme,
+including a numeric suffix representing its position in the sequence,
+starting from 1. So, for instance, with a name template of
+`azworker-`, the VMs must be named `azworker-1`, `azworker-2`,
+`azworker-3`, etc.  Also note that your network must allow for every
+node to route to every other node.
 
 simple-scaler is monitored and controlled over a simple web API.
 
@@ -34,10 +38,10 @@ $ curl http://localhost:8080
 { "target": 2, "ready": 2, "vms": 2, "active-change-timer": 0, "last-change-timer": 1234 }
 ```
 
- * `target` is the number of `simple-scaler`-managed OpenShift nodes we are aiming to have ready.
- * `ready` is the number of `simple-scaler`-managed ready nodes in the OpenShift cluster.
+ * `target` is the number of simple-scaler-managed OpenShift nodes we are aiming to have ready.
+ * `ready` is the number of simple-scaler-managed ready nodes in the OpenShift cluster.
  * `vms` is the number of VMs that are on, regardless of whether of not they are ready
- * `active-change-timer` is the number of seconds `simple-scaler` has been working on a change, or `0`
+ * `active-change-timer` is the number of seconds simple-scaler has been working on a change, or `0`
  * `last-change-timer` is the number of seconds since our last completed change, or `0` if there's an ongoing change
 
 ```
