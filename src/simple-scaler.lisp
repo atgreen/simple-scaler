@@ -102,6 +102,9 @@
 (defvar *sp-password*)
 (defvar *tenant*)
 
+(defmacro run-with-retry (fmtstring &rest args)
+  `(%run-with-retry (format nil ,fmtstring ,@args)))
+
 (defun az-login ()
   (run-with-retry
    "az login --service-principal --username ~A --password ~A --tenant ~A"
@@ -139,9 +142,6 @@ to account for intermittent network problems."
           until (not (%%run-with-retry cmd))
           do (progn (log:info "retry #~A" i) (sleep (* i 2)))
           finally (when (eq i 6) (log:error "failed cmd: ~A" cmd)))))
-
-(defmacro run-with-retry (fmtstring &rest args)
-  `(%run-with-retry (format nil ,fmtstring ,@args)))
 
 ;; This method is called when I become leader.
 (defun become-leader (etcd)
